@@ -12,33 +12,65 @@
         android:layout_height="90dp"
         android:layout_marginTop="50dp"
         android:src="@drawable/messenger_icon"
+        android:transitionName="logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:transitionName="logo"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/loginLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/imgLogo"
-        android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/imgLogo">
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputUserName"
+            style="@style/OutlineBoxStyle"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Username"
-            android:textColorHint="@color/primary_color"
-            app:hintTextColor="@color/black">
+            android:layout_height="60dp"
+            android:hint="@string/hint_username"
+            android:textColorHint="@color/black"
+            app:hintAnimationEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"
+                android:fontFamily="" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputPassWord"
+            style="@style/OutlineBoxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:hint="@string/hint_password"
+            android:textColorHint="@color/black"
+            app:hintAnimationEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/login_button_text"
+        app:layout_constraintEnd_toEndOf="@id/loginLayout"
+        app:layout_constraintStart_toStartOf="@id/loginLayout"
+        app:layout_constraintTop_toBottomOf="@id/loginLayout"
+        android:background="@drawable/login_button_bg"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/sf_pro"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

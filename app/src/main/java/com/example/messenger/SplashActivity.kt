@@ -17,6 +17,9 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //set flag screen
+
+
         setContentView(R.layout.activity_splash)
 
         topAnimation = AnimationUtils.loadAnimation(this, R.anim.top_animation)
@@ -26,10 +29,14 @@ class SplashActivity : AppCompatActivity() {
             override fun onAnimationStart(animation: Animation?) {}
 
             override fun onAnimationEnd(animation: Animation?) {
-                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
-                val pairs = arrayOf<Pair<View, String>>(Pair(logoImage, "logo"))
-                val options = ActivityOptions.makeSceneTransitionAnimation(this@SplashActivity, *pairs)
-                startActivity(intent, options.toBundle())
+                Handler().postDelayed({
+                    val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                    val pairs = arrayOf<Pair<View, String>>(Pair(logoImage, "logo"))
+                    val options =
+                        ActivityOptions.makeSceneTransitionAnimation(this@SplashActivity, *pairs)
+                    startActivity(intent, options.toBundle())
+
+                }, 500)
                 finish()
             }
 
@@ -37,5 +44,6 @@ class SplashActivity : AppCompatActivity() {
         })
 
         logoImage.startAnimation(topAnimation)
+
     }
 }

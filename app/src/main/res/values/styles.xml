@@ -2,6 +2,13 @@
 <resources>
 
     <style name="OutlineBoxStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor"> @color/black</item>
+        <item name="boxCornerRadiusTopStart">8dp</item> <!-- Bo tròn góc trên bên trái -->
+        <item name="boxCornerRadiusTopEnd">8dp</item> <!-- Bo tròn góc trên bên phải -->
+        <item name="boxCornerRadiusBottomStart">8dp</item> <!-- Bo tròn góc dưới bên trái -->
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxStrokeColor">@color/primary_color</item>
+        <item name="font">@font/sf_pro</item>
+        <item name="strokeWidth">3dp</item>
+        <!--https://stackoverflow.com/questions/50817383/change-the-textinputlayout-outline-color-->
     </style>
 </resources>

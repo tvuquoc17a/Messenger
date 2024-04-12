@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Messenger</string>
-    <string name="hint_username">Username</string>
+    <string name="hint_username">Username/Email</string>
     <string name="hint_password">Password</string>
     <string name="login_button_text">login</string>
+    <string name="new_user_sign_up">New user ? Sign up</string>
+    <string name="welcome_to_messenger">Welcome to Messenger</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="password"> PassWord </string>
+    <string name="register">register</string>
 </resources>

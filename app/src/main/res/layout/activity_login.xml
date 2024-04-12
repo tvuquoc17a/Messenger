@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".auth.LoginActivity">
 
     <ImageView
         android:id="@+id/imgLogo"
@@ -30,29 +30,33 @@
             android:id="@+id/inputUserName"
             style="@style/OutlineBoxStyle"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:hint="@string/hint_username"
             android:textColorHint="@color/black"
             app:hintAnimationEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextLoginUserName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fontFamily="" />
+                android:fontFamily="@font/sf_pro"
+                android:textSize="17sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputPassWord"
             style="@style/OutlineBoxStyle"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:hint="@string/hint_password"
             android:textColorHint="@color/black"
             app:hintAnimationEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextLoginPassWord"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:textSize="17sp" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -60,17 +64,25 @@
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_button_bg"
+        android:fontFamily="@font/sf_pro"
         android:text="@string/login_button_text"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/loginLayout"
         app:layout_constraintStart_toStartOf="@id/loginLayout"
-        app:layout_constraintTop_toBottomOf="@id/loginLayout"
-        android:background="@drawable/login_button_bg"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/sf_pro"/>
+        app:layout_constraintTop_toBottomOf="@id/loginLayout" />
+
     <TextView
+        android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:text="@string/new_user_sign_up"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/btnLogin"
+        app:layout_constraintStart_toStartOf="@id/btnLogin"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@
         <item name="boxStrokeColor">@color/primary_color</item>
         <item name="font">@font/sf_pro</item>
         <item name="strokeWidth">3dp</item>
+        <item name="boxStrokeWidth"> 2dp</item>
         <!--https://stackoverflow.com/questions/50817383/change-the-textinputlayout-outline-color-->
     </style>
 </resources>

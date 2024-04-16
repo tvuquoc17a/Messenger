@@ -68,10 +68,9 @@
         android:background="@drawable/login_button_bg"
         android:fontFamily="@font/sf_pro"
         android:text="@string/login_button_text"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/loginLayout"
         app:layout_constraintStart_toStartOf="@id/loginLayout"
-        app:layout_constraintTop_toBottomOf="@id/loginLayout" />
+        app:layout_constraintTop_toBottomOf="@id/progressLoginLoading" />
 
     <TextView
         android:id="@+id/btnSignUp"
@@ -83,6 +82,28 @@
         app:layout_constraintEnd_toEndOf="@id/btnLogin"
         app:layout_constraintStart_toStartOf="@id/btnLogin"
         app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+
+    <ProgressBar
+        android:id="@+id/progressLoginLoading"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:progressDrawable="@drawable/custom_progressbar"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/loginLayout"
+        app:layout_constraintStart_toStartOf="@id/loginLayout"
+        app:layout_constraintTop_toBottomOf="@id/loginLayout" />
+
+    <TextView
+        android:id="@+id/tvLoginError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="exception"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/btnSignUp"
+        app:layout_constraintStart_toStartOf="@id/btnSignUp"
+        app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

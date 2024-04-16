@@ -1,17 +1,16 @@
 package com.example.messenger.auth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.messenger.databinding.ActivityLoginBinding
 import com.example.messenger.viewmodel.AuthViewModel
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -22,8 +21,26 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
-        showLoginButton()
+        loginButton()
         signUpButton()
+        showProgressBar()
+    }
+
+    private fun showProgressBar() {
+        viewModel.loginStatus.observe(this@LoginActivity) { isSuccess ->
+
+            if (isSuccess) {
+                binding.progressLoginLoading.visibility = View.GONE
+                val intent = android.content.Intent(
+                    this@LoginActivity,
+                    com.example.messenger.ChatsActivity::class.java
+                )
+                startActivity(intent)
+                finish()
+            } else if (!isSuccess) {
+                binding.progressLoginLoading.visibility = View.GONE
+            }
+        }
     }
 
     private fun signUpButton() {
@@ -33,37 +50,25 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
 
-
-    }
-
-    private fun showLoginButton() {
-        binding.editTextLoginUserName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (binding.editTextLoginUserName.text.toString().isNotEmpty() || binding.editTextLoginPassWord.text.toString().isNotEmpty()) {
-                    //button show with animation
-                    binding.btnLogin.visibility = View.VISIBLE
-                    binding.btnLogin.setOnClickListener() {
-                        viewModel.loginUser(
-                            binding.editTextLoginUserName.text.toString(),
-                            binding.editTextLoginPassWord.text.toString()
-                        )
-                    }
-                } else {
-                    binding.btnLogin.visibility = View.GONE
+    private fun loginButton() {
+        binding.btnLogin.setOnClickListener() {
+            viewModel.loginStatus.value = false
+            binding.progressLoginLoading.visibility = View.VISIBLE
+            CoroutineScope(Dispatchers.Main).launch {
+                val loginError = viewModel.loginUser(
+                    binding.editTextLoginUserName.text.toString(),
+                    binding.editTextLoginPassWord.text.toString()
+                )
+                if (loginError != null) {
+                    binding.tvLoginError.visibility = View.VISIBLE
+                    Log.d("login_error", "$loginError")
+                    binding.tvLoginError.text = loginError.toString()
+                }
+                else {
+                    binding.tvLoginError.visibility = View.GONE
                 }
             }
-
-        })
+        }
     }
 }

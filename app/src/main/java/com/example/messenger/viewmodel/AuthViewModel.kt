@@ -6,14 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.messenger.model.User
 import com.google.firebase.Firebase
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.database
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.withContext
 import java.util.UUID
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -26,15 +27,30 @@ class AuthViewModel : ViewModel() {
     private lateinit var currentUser: FirebaseUser
     val errorNotification = MutableLiveData<String>()
     private var profileImageUrl = String()
+    val loginStatus = MutableLiveData<Boolean>()
 
-    fun loginUser(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener() {
-                if (it.isSuccessful) {
-                    currentUser = auth.currentUser!!
-                    Log.d("login", currentUser.uid)
+    suspend fun loginUser(email: String, password: String): String? {
+        return suspendCoroutine { continuation ->
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener() {
+                    if (it.isSuccessful) {
+                        loginStatus.value = true
+                        currentUser = auth.currentUser!!
+                        Log.d("sign_in", currentUser.uid)
+                        continuation.resume(null)
+                    }
+                }.addOnFailureListener() {
+                    loginStatus.value = false
+                    var loginError : String? = null
+                    when(it){
+                        is FirebaseAuthInvalidCredentialsException -> loginError = "Invalid credentials"
+                        is FirebaseAuthInvalidUserException -> loginError = "No user corresponding to the given email"
+                        is FirebaseNetworkException -> loginError = "Network error"
+                        is FirebaseTooManyRequestsException -> loginError = "Too many requests"
+                    }
+                    continuation.resume(loginError)
                 }
-            }
+        }
     }
 
     fun currentUserUid(): String {
@@ -51,8 +67,7 @@ class AuthViewModel : ViewModel() {
             .addOnFailureListener() {
                 if (it is FirebaseAuthUserCollisionException) {
                     errorNotification.value = "Email already in use"
-                }
-                else{
+                } else {
                     Log.d("sign_up", "failed")
                 }
             }
@@ -63,7 +78,7 @@ class AuthViewModel : ViewModel() {
     suspend fun getProfileUrl(uri: Uri): String {
         val fileName = UUID.randomUUID().toString()
         val ref = storage.getReference("/profile_images/$fileName")
-        return suspendCoroutine<String> {continuation ->
+        return suspendCoroutine<String> { continuation ->
             ref.putFile(uri)
                 .addOnSuccessListener {
                     ref.downloadUrl
@@ -72,11 +87,11 @@ class AuthViewModel : ViewModel() {
                             continuation.resume(profileImageUrl)
                             Log.d("profile_url", profileImageUrl)
                         }
-                        .addOnFailureListener{exception ->
+                        .addOnFailureListener { exception ->
                             continuation.resumeWithException(exception)
                         }
                 }
-                .addOnFailureListener{exception ->
+                .addOnFailureListener { exception ->
                     continuation.resumeWithException(exception)
                 }
 

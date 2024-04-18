@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/baseline_chat_bubble_24"
+        android:title="@string/chats"
+        android:id="@+id/chatsFragment"/>
+    <item
+        android:icon="@drawable/calls"
+        android:title="@string/calls"
+        android:id="@+id/callFragment"/>
+    <item
+        android:icon="@drawable/phonebook"
+        android:title="@string/people"
+        android:id="@+id/peopleFragment"/>
+    <item
+        android:icon="@drawable/story"
+        android:title="@string/stories"
+        android:id="@+id/storyFragment"/>
+</menu>

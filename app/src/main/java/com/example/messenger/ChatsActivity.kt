@@ -27,7 +27,6 @@ class ChatsActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navController = Navigation.findNavController(this, R.id.fragments)
-
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         bottomNavigationView.selectedItemId = R.id.chatsFragment
@@ -35,21 +34,25 @@ class ChatsActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.chatsFragment -> {
+                    navController.navigate(R.id.chatsFragment)
                     binding.toolBarChats.title = "Chats"
                     true
                 }
 
                 R.id.callFragment -> {
+                    navController.navigate(R.id.callFragment)
                     binding.toolBarChats.title = "Calls"
                     true
                 }
 
                 R.id.peopleFragment -> {
+                    navController.navigate(R.id.peopleFragment)
                     binding.toolBarChats.title = "People"
                     true
                 }
 
                 R.id.storyFragment -> {
+                    navController.navigate(R.id.storyFragment)
                     binding.toolBarChats.title = "Stories"
                     true
                 }

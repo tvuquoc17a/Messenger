@@ -15,4 +15,8 @@
     <string name="people">People</string>
     <string name="calls">Calls</string>
     <string name="chats">Chats</string>
+    <string name="marketplace">Marketplace</string>
+    <string name="message">Message</string>
+    <string name="open">open navigation drawer</string>
+    <string name="close">Close navigation drawer</string>
 </resources>

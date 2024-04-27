@@ -50,7 +50,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun chooseImageProfile() {
-        binding.imgUserProfile.setOnClickListener() {
+        binding.imgUserProfileSignUp.setOnClickListener() {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
@@ -63,7 +63,7 @@ class SignUpActivity : AppCompatActivity() {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             selectedImageUri = data?.data!!
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImageUri)
-            binding.imgUserProfile.setImageBitmap(bitmap)
+            binding.imgUserProfileSignUp.setImageBitmap(bitmap)
         }
     }
 
@@ -86,7 +86,7 @@ class SignUpActivity : AppCompatActivity() {
                 lifecycleScope.launch {
 
                     viewModel.signUp(email, password, name, selectedImageUri)
-                    Log.d("sign_up", "Dispatchers.Main")
+
                 }
 
 

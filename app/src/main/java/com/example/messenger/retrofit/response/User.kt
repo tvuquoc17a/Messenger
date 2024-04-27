@@ -1,6 +1,7 @@
 package com.example.messenger.retrofit.response
 
 data class User(
-    val account: String,
-    val password: String
+    val avatarImageUrl: String,
+    val id: Int,
+    val name: String
 )

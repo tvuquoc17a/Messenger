@@ -35,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
                     this@LoginActivity,
                     com.example.messenger.ChatsActivity::class.java
                 )
+                //send user to the chat activity
                 startActivity(intent)
                 finish()
             } else if (!isSuccess) {

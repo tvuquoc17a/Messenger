@@ -7,7 +7,7 @@
     <Toolbar
         android:id="@+id/header_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:theme="@style/ActionBarWhite"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -17,17 +17,20 @@
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.2" />
+                android:layout_weight="0.2"
+                android:id="@+id/imgUserProfile"/>
 
             <TextView
                 android:id="@+id/tvHeaderUserName"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/name"
-                android:textSize="15sp" />
+                android:textSize="16sp"
+                android:paddingTop="8dp"
+                android:paddingLeft="5dp"/>
 
             <ImageView
                 android:id="@+id/iconSetting"
@@ -35,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:baselineAligned="false"
+                android:layout_gravity="center_vertical"
                 android:contentDescription="@string/setting_icon"
                 android:src="@drawable/setting" />
         </LinearLayout>

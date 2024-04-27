@@ -20,18 +20,18 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))[AuthViewModel::class.java]
         loginButton()
         signUpButton()
-        showProgressBar()
+        showLoginProgressBar()
     }
 
-    private fun showProgressBar() {
+    private fun showLoginProgressBar() {
         viewModel.loginStatus.observe(this@LoginActivity) { isSuccess ->
 
             if (isSuccess) {
                 binding.progressLoginLoading.visibility = View.GONE
-                val intent = android.content.Intent(
+                val intent = Intent(
                     this@LoginActivity,
                     com.example.messenger.ChatsActivity::class.java
                 )

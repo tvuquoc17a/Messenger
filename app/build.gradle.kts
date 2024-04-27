@@ -68,7 +68,14 @@ dependencies {
     //circle image view
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
+    //navigation
     implementation( "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07")
     implementation( "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07")
 
+    //retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //jwt
+    implementation ("com.auth0.android:jwtdecode:2.0.0")
 }

@@ -2,21 +2,25 @@ package com.example.messenger
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.messenger.databinding.ActivityChatsBinding
+import com.example.messenger.viewmodel.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ChatsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatsBinding
     private lateinit var drawerLayout: DrawerLayout
+    val viewModel : HomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

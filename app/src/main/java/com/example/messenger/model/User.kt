@@ -1,8 +1,8 @@
 package com.example.messenger.model
 
 data class User(
-    val uid: String,
+    val id: String,
     val name: String,
-    val email : String,
-    val profileUrl: String
+    val account: String,
+    val profileImageUrl : String
 )

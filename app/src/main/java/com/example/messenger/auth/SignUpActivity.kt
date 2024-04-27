@@ -15,14 +15,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.messenger.R
 import com.example.messenger.databinding.ActivitySignInBinding
-import com.example.messenger.model.User
 import com.example.messenger.viewmodel.AuthViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class SignInActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
     private lateinit var viewModel: AuthViewModel
     private val PICK_IMAGE_REQUEST = 1
@@ -88,9 +84,8 @@ class SignInActivity : AppCompatActivity() {
 
 
                 lifecycleScope.launch {
-                    val profileUrlDeferred = async { viewModel.getProfileUrl(selectedImageUri) }
-                    val profileUrl = profileUrlDeferred.await()
-                    viewModel.signUp(email, password, name, profileUrl)
+
+                    viewModel.signUp(email, password, name, selectedImageUri)
                     Log.d("sign_up", "Dispatchers.Main")
                 }
 

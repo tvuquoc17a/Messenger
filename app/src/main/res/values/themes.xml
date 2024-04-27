@@ -4,17 +4,26 @@
         <!-- Customize your light theme here. -->
     </style>
 
-    <style name="MyTheme.Splash" parent="Base.Theme.Messenger" >
-        <item name="colorPrimary"> @color/primary_color</item>
+    <style name="MyTheme.Splash" parent="Base.Theme.Messenger">
+        <item name="colorPrimary">@color/primary_color</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="fontFamily"> @font/sf_pro </item>
+        <item name="fontFamily">@font/sf_pro</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/white</item>
     </style>
+
     <style name="ActionBarWhite" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="fontFamily">@font/sf_pro</item>
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
+    <style name="MyToolBarStyle" >
+        <item name="android:textStyle"> bold</item>
     </style>
 </resources>

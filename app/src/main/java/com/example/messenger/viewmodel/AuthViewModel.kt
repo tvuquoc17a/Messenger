@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.messenger.jwt.TokenManager
 import com.example.messenger.model.LoginUser
+import com.example.messenger.model.RegisterResponse
 import com.example.messenger.model.SignUpUser
 import com.example.messenger.repository.UserRepository
 import com.example.messenger.retrofit.RetrofitInstance
@@ -17,7 +18,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class AuthViewModel( application: Application) : AndroidViewModel(application) {
+class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     private val storage by lazy { FirebaseStorage.getInstance() }
     val errorNotification = MutableLiveData<String>()
@@ -34,11 +35,19 @@ class AuthViewModel( application: Application) : AndroidViewModel(application) {
                 call: retrofit2.Call<LoginResponse>,
                 response: retrofit2.Response<LoginResponse>
             ) {
-                if (response.isSuccessful) {
+                if (response.body()?.succeeded == true) {
                     val token = response.body()?.data?.token.toString()
-                    Log.d("loginResponse", "Token : $token\nName : ${TokenManager.getUserName(token)}\nId : ${TokenManager.getUserId(token)}\nAudience : ${TokenManager.getAudience(token)}\n")
+                    Log.d(
+                        "loginResponse",
+                        "Token : $token\nName : ${TokenManager.getUserName(token)}\nId : ${
+                            TokenManager.getUserId(token)
+                        }\nAudience : ${TokenManager.getAudience(token)}\n"
+                    )
                     userRepository.saveToken(token)
                     loginStatus.value = true
+                } else {
+                    Log.e("loginResponse", "Failed to login: ${response.body()?.succeeded}")
+                    loginStatus.value = false
                 }
             }
 
@@ -53,22 +62,29 @@ class AuthViewModel( application: Application) : AndroidViewModel(application) {
         return TokenManager.getUserId(userRepository.getToken().toString())
     }
 
-    fun signUp(email: String, password: String, name: String) {
-        val signUpUser = SignUpUser(name, email, password)
-        retrofitInstance.api.createUser(signUpUser).enqueue(object : retrofit2.Callback<String> {
-            override fun onResponse(
-                call: retrofit2.Call<String>,
-                response: retrofit2.Response<String>
-            ) {
-                if (response.isSuccessful) {
-                    Log.d("sign_up", response.body().toString())
-                }
-            }
+    suspend fun signUp(userName: String, password: String, name: String, selectedImageUri: Uri) {
 
-            override fun onFailure(call: retrofit2.Call<String>, t: Throwable) {
-                Log.e("sign_up", t.message.toString())
-            }
-        })
+        val signUpUser = SignUpUser(name, userName, password, getProfileUrl(selectedImageUri))
+        Log.d("sign_up", getProfileUrl(selectedImageUri))
+        retrofitInstance.api.createUser(signUpUser)
+            .enqueue(object : retrofit2.Callback<RegisterResponse> {
+                override fun onResponse(
+                    call: retrofit2.Call<RegisterResponse>,
+                    response: retrofit2.Response<RegisterResponse>
+                ) {
+                    val result = response.body()
+                    Log.d("sign_up", "Result from api : ${result.toString()}")
+                    if (response.body()?.succeeded == true) {
+                        Log.d("sign_up","response : ${response.body()?.data.toString()}")
+                    } else {
+                        Log.e("sign_up", "Succeeded false :  ${response.body()?.error?.message.toString()}")
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<RegisterResponse>, t: Throwable) {
+                    //Log.e("sign_up", t.message.toString())
+                }
+            })
     }
 
 

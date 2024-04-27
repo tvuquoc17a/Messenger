@@ -23,7 +23,7 @@
             android:theme="@style/ActionBarWhite">
         </activity>
         <activity
-            android:name=".auth.SignInActivity"
+            android:name=".auth.SignUpActivity"
             android:exported="false"
             android:parentActivityName=".auth.LoginActivity" />
         <activity

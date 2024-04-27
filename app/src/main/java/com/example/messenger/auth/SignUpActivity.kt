@@ -18,7 +18,7 @@ import com.example.messenger.databinding.ActivitySignInBinding
 import com.example.messenger.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
 
-class SignInActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
     private lateinit var viewModel: AuthViewModel
     private val PICK_IMAGE_REQUEST = 1
@@ -85,7 +85,7 @@ class SignInActivity : AppCompatActivity() {
 
                 lifecycleScope.launch {
 
-                    viewModel.signUp(email, password, name)
+                    viewModel.signUp(email, password, name, selectedImageUri)
                     Log.d("sign_up", "Dispatchers.Main")
                 }
 

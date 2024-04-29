@@ -78,4 +78,11 @@ dependencies {
 
     //jwt
     implementation ("com.auth0.android:jwtdecode:2.0.0")
+
+    //glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    //viewpager2
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+
 }

@@ -9,8 +9,8 @@ object TokenManager {
         return JWT(token)
     }
 
-    fun getUserId(token: String): String {
-        return decodeToken(token).getClaim(NAME).asString().toString()
+    fun getUserId(token: String): Int {
+        return decodeToken(token).getClaim(NAME).asString()?.toInt() ?: 0
     }
 
     fun getUserName(token: String): String {

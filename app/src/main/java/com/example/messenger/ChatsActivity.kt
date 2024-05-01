@@ -20,7 +20,9 @@ class ChatsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatsBinding
     private lateinit var drawerLayout: DrawerLayout
-    val viewModel : HomeViewModel by viewModels()
+    val viewModel : HomeViewModel by lazy {
+        ViewModelProvider(this)[HomeViewModel::class.java]
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

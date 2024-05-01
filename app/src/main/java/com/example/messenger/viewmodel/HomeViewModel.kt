@@ -1,15 +1,26 @@
 package com.example.messenger.viewmodel
 
+import android.app.Application
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.example.messenger.R
+import com.example.messenger.repository.UserRepository
+import com.example.messenger.retrofit.RetrofitInstance
+import com.example.messenger.retrofit.response.UserListItem
 import com.google.android.material.navigation.NavigationView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
+    var userRepository = UserRepository(application)
+    val retrofitInstance = RetrofitInstance(userRepository)
+    val userLiveData = MutableLiveData<List<UserListItem>>()
 
     fun setupHeaderOfNavigationDrawer(navigationView: NavigationView) {
 
@@ -22,5 +33,31 @@ class HomeViewModel : ViewModel() {
             .into(userImage)
 
         userName.text = AuthViewModel.currentUser?.name.toString()
+    }
+
+    fun getUserList()  {
+        retrofitInstance.api.getUserList().enqueue(object : Callback<List<UserListItem>>{
+            override fun onResponse(call: Call<List<UserListItem>>, response: Response<List<UserListItem>>) {
+                if(response.isSuccessful) {
+
+                    userLiveData.value = response.body()
+                    userLiveData.value?.let {
+                        for (user in it) {
+                            Log.d("getUserList", "User id: ${user.id}, account: ${user.account}, name: ${user.name}, avatarImageUrl: ${user.avatarImageUrl}")
+                        }
+                    }
+                }
+                else{
+                    //log error
+                    response.errorBody().let { errorBody ->
+                        Log.d("getUserList", "Failed to get user list : ${errorBody.toString()}")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<UserListItem>>, t: Throwable) {
+                Log.d("getUserList", "Failed to get user list : ${t.message}")
+            }
+        })
     }
 }

@@ -16,7 +16,7 @@ class RetrofitInstance(private val userRepository: UserRepository) {
 
         val api: ChatApi by lazy {
             Retrofit.Builder()
-                .baseUrl("https://1ee1-42-113-154-37.ngrok-free.app")
+                .baseUrl("https://cedf-42-113-154-37.ngrok-free.app")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

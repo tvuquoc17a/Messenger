@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context=".fragments.ChatsFragment">
+    tools:context=".fragments.ChatsFragment"
+    android:theme="@style/ActionBarWhite">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.core.widget.NestedScrollView
@@ -25,7 +26,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvOnlineUser"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="100dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/searchUser"

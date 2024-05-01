@@ -61,28 +61,28 @@ dependencies {
 
     //splash screen
     implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation ("androidx.appcompat:appcompat:1.0.0")
-    implementation ("com.google.android.material:material:1.0.0")
-    implementation ("com.android.support:design:28.0.0-alpha3")
+    implementation("androidx.appcompat:appcompat:1.0.0")
+    implementation("com.google.android.material:material:1.0.0")
+    implementation("com.android.support:design:28.0.0-alpha3")
 
     //circle image view
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
     //navigation
-    implementation( "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07")
-    implementation( "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07")
+    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07")
+    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07")
 
     //retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     //jwt
-    implementation ("com.auth0.android:jwtdecode:2.0.0")
+    implementation("com.auth0.android:jwtdecode:2.0.0")
 
     //glide
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     //viewpager2
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
 
 }

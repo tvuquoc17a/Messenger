@@ -25,4 +25,14 @@
         android:name="com.example.messenger.fragments.StoryFragment"
         android:label="fragment_story"
         tools:layout="@layout/fragment_story" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.messenger.fragments.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/chatContentFragment"
+        android:name="com.example.messenger.fragments.ChatContentFragment"
+        android:label="fragment_chat_content"
+        tools:layout="@layout/fragment_chat_content" />
 </navigation>

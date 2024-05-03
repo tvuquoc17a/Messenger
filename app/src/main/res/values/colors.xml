@@ -5,4 +5,5 @@
     <color name="primary_color">#0084FE</color>
     <color name="red"> #E72929</color>
     <color name="gray">#BABABA</color>
+    <color name="trans" >#00FF0000</color>
 </resources>

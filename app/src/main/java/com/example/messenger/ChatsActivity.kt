@@ -35,7 +35,7 @@ class ChatsActivity : AppCompatActivity() {
             insets
         }
 
-        viewModel.setupHeaderOfNavigationDrawer(binding.navigationView)
+        viewModel.setupHeaderOfNavigationDrawer(binding.navigationView, supportFragmentManager)
 
         drawerLayout = findViewById<DrawerLayout>(R.id.main)
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)

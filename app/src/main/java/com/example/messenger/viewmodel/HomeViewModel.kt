@@ -4,10 +4,12 @@ import android.app.Application
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.example.messenger.R
+import com.example.messenger.fragments.SettingFragment
 import com.example.messenger.repository.UserRepository
 import com.example.messenger.retrofit.RetrofitInstance
 import com.example.messenger.retrofit.response.UserListItem
@@ -19,20 +21,29 @@ import retrofit2.Response
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     var userRepository = UserRepository(application)
-    val retrofitInstance = RetrofitInstance(userRepository)
+    private val retrofitInstance = RetrofitInstance(userRepository)
     val userLiveData = MutableLiveData<List<UserListItem>>()
 
-    fun setupHeaderOfNavigationDrawer(navigationView: NavigationView) {
+    fun setupHeaderOfNavigationDrawer(navigationView: NavigationView, fragmentManager: FragmentManager) {
 
         val headerView = navigationView.getHeaderView(0)
         val userImage = headerView.findViewById<ImageView>(R.id.imgUserProfile)
         val userName = headerView.findViewById<TextView>(R.id.tvHeaderUserName)
+        val buttonSetting = headerView.findViewById<ImageView>(R.id.iconSetting)
         Log.d("image", AuthViewModel.currentUser?.profileImageUrl.toString())
         Glide.with(navigationView.context)
             .load(AuthViewModel.currentUser?.profileImageUrl)
             .into(userImage)
 
         userName.text = AuthViewModel.currentUser?.name.toString()
+        buttonSetting.setOnClickListener {
+            Log.d("HomeViewModel", "Setting button clicked")
+            val newFragment = SettingFragment()
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.main, newFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
 
     fun getUserList()  {

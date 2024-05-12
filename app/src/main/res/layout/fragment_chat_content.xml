@@ -101,6 +101,15 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvChatContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/appBarLayoutBottom"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayoutTop"
+        tools:listitem="@layout/item_chat_content" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayoutBottom"
         android:layout_width="match_parent"
@@ -113,25 +122,26 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextMessage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_chat_edittext"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btnSend"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnVoiceSend"
                 android:layout_marginHorizontal="12sp"
+                android:background="@drawable/bg_chat_edittext"
                 android:gravity="fill_horizontal"
                 android:hint="@string/text_something"
-                android:textStyle="normal"
                 android:paddingStart="10dp"
                 android:textSize="15sp"
-                />
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnSend"
+                app:layout_constraintStart_toEndOf="@id/btnVoiceSend"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/btnSend"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
                 android:background="@color/trans"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_send"
@@ -139,13 +149,13 @@
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginEnd="8dp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/btnCamera"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginStart="8dp"
                 android:background="@color/trans"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_camera"
@@ -153,13 +163,13 @@
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintHeight_percent="0.4"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="8dp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
+                android:id="@+id/btnGallery"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:id="@+id/btnGallery"
+                android:layout_marginStart="12dp"
                 android:background="@color/trans"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_send_image"
@@ -167,13 +177,13 @@
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintHeight_percent="0.4"
                 app:layout_constraintStart_toEndOf="@id/btnCamera"
-                app:layout_constraintTop_toTopOf="@id/btnCamera"
-                android:layout_marginStart="12dp"/>
+                app:layout_constraintTop_toTopOf="@id/btnCamera" />
 
             <ImageButton
+                android:id="@+id/btnVoiceSend"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:id="@+id/btnVoiceSend"
+                android:layout_marginStart="12dp"
                 android:background="@color/trans"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_micro"
@@ -181,8 +191,7 @@
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintHeight_percent="0.4"
                 app:layout_constraintStart_toEndOf="@id/btnGallery"
-                app:layout_constraintTop_toTopOf="@id/btnCamera"
-                android:layout_marginStart="12dp" />
+                app:layout_constraintTop_toTopOf="@id/btnCamera" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

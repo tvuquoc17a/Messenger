@@ -85,4 +85,7 @@ dependencies {
     //viewpager2
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
+    //signalr
+    implementation ("com.microsoft.signalr:signalr:7.0.0")
+
 }

@@ -28,4 +28,11 @@
         <item name="fontFamily">@font/sf_pro</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="MessageStyle">
+        <item name="android:textStyle"> normal</item>
+        <item name="fontWeight"> @integer/material_motion_duration_medium_1</item>
+        <item name="fontFamily">@font/sf_pro</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

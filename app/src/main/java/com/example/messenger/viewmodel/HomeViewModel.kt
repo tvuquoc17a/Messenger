@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.example.messenger.R
 import com.example.messenger.fragments.SettingFragment
+import com.example.messenger.jwt.TokenManager
 import com.example.messenger.repository.UserRepository
 import com.example.messenger.retrofit.RetrofitInstance
 import com.example.messenger.retrofit.request.RoomInfo
@@ -29,8 +30,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     var userRepository = UserRepository(application)
     private val retrofitInstance = RetrofitInstance(userRepository)
     val userLiveData = MutableLiveData<List<UserListItem>>()
-    private var signalRListener: SignalRListener = SignalRListener.getInstance()
-    lateinit var hubConnection: HubConnection
+    private var signalRListener: SignalRListener = SignalRListener.getInstance(userRepository.getToken())
 
     fun setupHeaderOfNavigationDrawer(
         navigationView: NavigationView,

@@ -107,7 +107,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun getProfileUrl(uri: Uri): String {
         val fileName = UUID.randomUUID().toString()
         val ref = storage.getReference("/profile_images/${currentUserId()}/$fileName")
-        return suspendCoroutine<String> { continuation ->
+        return suspendCoroutine { continuation ->
             ref.putFile(uri)
                 .addOnSuccessListener {
                     ref.downloadUrl

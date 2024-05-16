@@ -10,15 +10,13 @@ import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.example.messenger.R
 import com.example.messenger.fragments.SettingFragment
-import com.example.messenger.jwt.TokenManager
 import com.example.messenger.repository.UserRepository
 import com.example.messenger.retrofit.RetrofitInstance
 import com.example.messenger.retrofit.request.RoomInfo
 import com.example.messenger.retrofit.response.UserListItem
 import com.example.messenger.signalr.SignalRListener
-import com.example.messenger.signalr.SignalrMessage
+import com.example.messenger.signalr.MessageDot
 import com.google.android.material.navigation.NavigationView
-import com.microsoft.signalr.HubConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Call
@@ -111,13 +109,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun sendMessage(content: String, roomId: Int) {
-        val message = SignalrMessage(
+        val message = MessageDot(
             roomId,
             content,
             AuthViewModel.currentUser!!.id,
             AuthViewModel.currentUser!!.name
         )
-        Log.d("sendMessage", "${signalRListener.connectionState}")
+        Log.d("sendNewMessage", signalRListener.connectionState)
         if (signalRListener.startConnection()) {
             signalRListener.sendMessage(message, roomId)
         }

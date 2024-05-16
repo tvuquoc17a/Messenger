@@ -53,7 +53,6 @@ class ChatContentFragment : Fragment() {
             roomId = viewModel.createRoom(user.id)
             Log.d("RoomId", "RoomId: ${roomId.toString()}")
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

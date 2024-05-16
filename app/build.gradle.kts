@@ -59,11 +59,15 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    implementation("androidx.appcompat:appcompat:1.6.1")
+
+    //material design
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("com.android.support:design:28.0.0")
+
     //splash screen
     implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.appcompat:appcompat:1.0.0")
-    implementation("com.google.android.material:material:1.0.0")
-    implementation("com.android.support:design:28.0.0-alpha3")
+
 
     //circle image view
     implementation ("de.hdodenhof:circleimageview:3.1.0")

@@ -1,7 +1,7 @@
 package com.example.messenger.signalr
 
-data class SignalrMessage(
-    val Id : Int,
+data class MessageDot(
+    val id : Int,
     val content : String,
     val UserSend : Int,
     val nameSend : String

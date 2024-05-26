@@ -63,8 +63,9 @@ dependencies {
 
     //splash screen
     implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation ("androidx.appcompat:appcompat:1.0.0")
-    implementation ("com.google.android.material:material:1.0.0")
+
+    implementation ("androidx.appcompat:appcompat:1.6.1")
+    implementation ("com.google.android.material:material:1.12.0")
     implementation ("com.android.support:design:28.0.0-alpha3")
 
     //circle image view

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.messenger.model.User
+import com.example.messenger.repository.FirebaseUtil
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -21,9 +22,8 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class AuthViewModel : ViewModel() {
-    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val database by lazy { Firebase.database }
-    private val storage by lazy { FirebaseStorage.getInstance() }
+    private val auth = FirebaseUtil.auth
+    private val database = FirebaseUtil.database
     private lateinit var currentUser: FirebaseUser
     val errorNotification = MutableLiveData<String>()
     private var profileImageUrl = String()
@@ -77,8 +77,8 @@ class AuthViewModel : ViewModel() {
 
     suspend fun getProfileUrl(uri: Uri): String {
         val fileName = UUID.randomUUID().toString()
-        val ref = storage.getReference("/profile_images/$fileName")
-        return suspendCoroutine<String> { continuation ->
+        val ref = FirebaseUtil.storage.getReference("/profile_images/$fileName")
+        return suspendCoroutine { continuation ->
             ref.putFile(uri)
                 .addOnSuccessListener {
                     ref.downloadUrl
@@ -101,8 +101,7 @@ class AuthViewModel : ViewModel() {
 
     private fun addUserToDataBase(name: String, email: String, profileUrl: String) {
         val user = User(currentUserUid(), name, email, profileUrl)
-        val databaseRef = database.getReference("Users/${currentUserUid()}")
-        databaseRef.setValue(user)
+        database.reference.child("Users").child(currentUserUid()).setValue(user)
     }
 }
 

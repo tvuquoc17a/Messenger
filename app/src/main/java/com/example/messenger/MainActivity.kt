@@ -1,26 +1,29 @@
 package com.example.messenger
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import com.example.messenger.databinding.ActivityChatsBinding
+import com.example.messenger.databinding.ActivityMainBinding
+import com.example.messenger.databinding.HeaderMenuBinding
+import com.example.messenger.singleton.UserSingleton
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class ChatsActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityChatsBinding
+class MainActivity : AppCompatActivity() {
+    private lateinit var headerMenuBinding: HeaderMenuBinding
+    private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityChatsBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         //enableEdgeToEdge()
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -29,13 +32,12 @@ class ChatsActivity : AppCompatActivity() {
             insets
         }
 
-        drawerLayout = findViewById<DrawerLayout>(R.id.main)
+        drawerLayout = findViewById(R.id.main)
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navController = Navigation.findNavController(this, R.id.fragments)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         bottomNavigationView.selectedItemId = R.id.chatsFragment
-
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.chatsFragment -> {
@@ -78,13 +80,18 @@ class ChatsActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
+        val headerView =  binding.navView.getHeaderView(0)
+        headerMenuBinding = DataBindingUtil.bind(headerView)!!
+        headerMenuBinding.userSingleton = UserSingleton
+        headerMenuBinding.lifecycleOwner = this
+
     }
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed();
+            super.onBackPressed()
         }
     }
 

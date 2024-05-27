@@ -1,15 +1,14 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Messenger" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your light theme here. -->
-    </style>
 
-    <style name="MyTheme.Splash" parent="Base.Theme.Messenger">
+
+    <style name="MyTheme.Messenger" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="fontFamily">@font/sf_pro</item>
+        <item name="android:textColor"> @color/black</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/white</item>
     </style>

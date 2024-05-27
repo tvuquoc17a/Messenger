@@ -6,16 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.messenger.model.User
 import com.example.messenger.repository.FirebaseUtil
-import com.google.firebase.Firebase
+import com.example.messenger.singleton.UserSingleton
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.database
-import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import java.util.UUID
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -32,14 +32,15 @@ class AuthViewModel : ViewModel() {
     suspend fun loginUser(email: String, password: String): String? {
         return suspendCoroutine { continuation ->
             auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener() {
+                .addOnCompleteListener {
                     if (it.isSuccessful) {
                         loginStatus.value = true
                         currentUser = auth.currentUser!!
-                        Log.d("sign_in", currentUser.uid)
+                        val userReference = database.getReference("/Users/${currentUser.uid}")
+                        userReference.addListenerForSingleValueEvent(userListener)
                         continuation.resume(null)
                     }
-                }.addOnFailureListener() {
+                }.addOnFailureListener {
                     loginStatus.value = false
                     var loginError : String? = null
                     when(it){
@@ -53,18 +54,15 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun currentUserUid(): String {
-        return currentUser.uid
-    }
 
     fun signUp(email: String, password: String, name: String, profileUrl: String) {
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener() {
+            .addOnSuccessListener {
                 currentUser = auth.currentUser!!
                 addUserToDataBase(name, email, profileUrl)
                 Log.d("sign_up", "success")
             }
-            .addOnFailureListener() {
+            .addOnFailureListener {
                 if (it is FirebaseAuthUserCollisionException) {
                     errorNotification.value = "Email already in use"
                 } else {
@@ -100,8 +98,18 @@ class AuthViewModel : ViewModel() {
     }
 
     private fun addUserToDataBase(name: String, email: String, profileUrl: String) {
-        val user = User(currentUserUid(), name, email, profileUrl)
-        database.reference.child("Users").child(currentUserUid()).setValue(user)
+        val user = User(currentUser.uid, name, email, profileUrl)
+        database.reference.child("Users").child(currentUser.uid).setValue(user)
+    }
+    private val userListener = object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            UserSingleton.user?.value = snapshot.getValue(User::class.java)
+            Log.d("login_button", UserSingleton.user?.value.toString())
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            Log.d("user_listener", "error")
+        }
     }
 }
 

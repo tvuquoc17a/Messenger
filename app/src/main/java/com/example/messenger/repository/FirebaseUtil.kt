@@ -8,6 +8,6 @@ import com.google.firebase.storage.FirebaseStorage
 
 object FirebaseUtil {
     val auth : FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    val database : FirebaseDatabase by lazy { Firebase.database }
+    val database : FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
     val storage : FirebaseStorage by lazy { FirebaseStorage.getInstance() }
 }

@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -28,6 +29,7 @@ android {
         }
     }
     buildFeatures {
+        dataBinding = true
         viewBinding = true
     }
     compileOptions {
@@ -48,6 +50,7 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0-alpha03")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.activity:activity-ktx:1.9.0")
+    implementation("androidx.databinding:databinding-runtime:8.4.1")
     //firebase
     implementation("com.google.firebase:firebase-auth:23.0.0")
 
@@ -64,14 +67,17 @@ dependencies {
     //splash screen
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-    implementation ("androidx.appcompat:appcompat:1.6.1")
-    implementation ("com.google.android.material:material:1.12.0")
-    implementation ("com.android.support:design:28.0.0-alpha3")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("com.android.support:design:28.0.0-alpha3")
 
     //circle image view
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
-    implementation( "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07")
-    implementation( "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07")
+    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07")
+    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07")
+
+    //glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 
 }

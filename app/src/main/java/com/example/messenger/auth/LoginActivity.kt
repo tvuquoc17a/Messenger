@@ -33,9 +33,9 @@ class LoginActivity : AppCompatActivity() {
 
             if (isSuccess) {
                 binding.progressLoginLoading.visibility = View.GONE
-                val intent = android.content.Intent(
+                val intent = Intent(
                     this@LoginActivity,
-                    com.example.messenger.ChatsActivity::class.java
+                    com.example.messenger.MainActivity::class.java
                 )
                 startActivity(intent)
                 finish()

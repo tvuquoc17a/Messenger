@@ -5,6 +5,6 @@ data class User(
     val name: String,
     val email : String,
     val profileUrl: String
-){
+) : java.io.Serializable{
     constructor() : this("","","","")
 }

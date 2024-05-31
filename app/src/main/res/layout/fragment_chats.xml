@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ChatsFragment"
-    android:padding="6dp">
+    android:paddingHorizontal="8dp"
+    android:paddingTop="20dp"
+    tools:context=".fragments.ChatsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewChat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="chat" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_search_bar"
+        android:textColorHint="#808080"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="@string/search" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvOnlineUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        tools:listitem="@layout/item_online_user"
+        app:layout_constraintTop_toBottomOf="@id/searchViewChat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

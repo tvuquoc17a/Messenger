@@ -9,17 +9,22 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.messenger.databinding.ActivityMainBinding
 import com.example.messenger.databinding.HeaderMenuBinding
 import com.example.messenger.singleton.UserSingleton
+import com.example.messenger.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var headerMenuBinding: HeaderMenuBinding
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
+    val viewModel : MainViewModel by lazy {
+        ViewModelProvider(this)[MainViewModel::class.java]
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,25 +47,25 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.chatsFragment -> {
                     navController.navigate(R.id.chatsFragment)
-                    binding.toolBarChats.title = "Chats"
+                    binding.tvTitle.text = "Chats"
                     true
                 }
 
                 R.id.callFragment -> {
                     navController.navigate(R.id.callFragment)
-                    binding.toolBarChats.title = "Calls"
+                    binding.tvTitle.text = "Calls"
                     true
                 }
 
                 R.id.peopleFragment -> {
                     navController.navigate(R.id.peopleFragment)
-                    binding.toolBarChats.title = "People"
+                    binding.tvTitle.text = "People"
                     true
                 }
 
                 R.id.storyFragment -> {
                     navController.navigate(R.id.storyFragment)
-                    binding.toolBarChats.title = "Stories"
+                    binding.tvTitle.text = "Stories"
                     true
                 }
 

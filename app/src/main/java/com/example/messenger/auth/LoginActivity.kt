@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun loginButton() {
-        binding.btnLogin.setOnClickListener() {
+        binding.btnLogin.setOnClickListener {
             viewModel.loginStatus.value = false
             binding.progressLoginLoading.visibility = View.VISIBLE
             CoroutineScope(Dispatchers.Main).launch {

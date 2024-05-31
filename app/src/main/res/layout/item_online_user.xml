@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="user"
+            type="com.example.messenger.model.User" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp">
+
+        <ImageView
+            android:id="@+id/imgOnlineUser"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:scaleType="fitCenter"
+            app:imageUrl="@{user.profileUrl}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvOnlineUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:maxWidth="65dp"
+            android:maxLines="1"
+            android:textSize="15sp"
+            android:text="@{user.name}"
+            app:layout_constraintEnd_toEndOf="@id/imgOnlineUser"
+            app:layout_constraintStart_toStartOf="@id/imgOnlineUser"
+            app:layout_constraintTop_toBottomOf="@id/imgOnlineUser"
+            tools:text="nameeeeeeeeeeeeeeeeeeeeeee" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -48,13 +48,13 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun backToLogin() {
-        binding.tvReturnToLogin.setOnClickListener(){
+        binding.tvReturnToLogin.setOnClickListener {
             onBackPressed()
         }
     }
 
     private fun chooseImageProfile() {
-        binding.imgUserProfile.setOnClickListener() {
+        binding.imgUserProfile.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
@@ -72,7 +72,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun registerButton() {
-        binding.btnRegister.setOnClickListener() {
+        binding.btnRegister.setOnClickListener {
             if (binding.editTextName.text.toString()
                     .isEmpty() || binding.editTextEmail.text.toString()
                     .isEmpty() || binding.editTextPassWord.text.toString().isEmpty()

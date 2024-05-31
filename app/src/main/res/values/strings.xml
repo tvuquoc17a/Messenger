@@ -19,4 +19,5 @@
     <string name="message">Message</string>
     <string name="open">open navigation drawer</string>
     <string name="close">Close navigation drawer</string>
+    <string name="search">Search</string>
 </resources>

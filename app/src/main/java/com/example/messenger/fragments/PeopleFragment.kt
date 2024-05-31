@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.messenger.R
 
 
-class PhoneBookFragment : Fragment() {
+class PeopleFragment : Fragment() {
 
 
     override fun onCreateView(
@@ -17,7 +17,7 @@ class PhoneBookFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_phone_book, container, false)
+        return inflater.inflate(R.layout.fragment_people, container, false)
     }
 
 

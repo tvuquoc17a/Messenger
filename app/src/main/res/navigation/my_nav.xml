@@ -17,9 +17,9 @@
         tools:layout="@layout/fragment_call" />
     <fragment
         android:id="@+id/peopleFragment"
-        android:name="com.example.messenger.fragments.PhoneBookFragment"
+        android:name="com.example.messenger.fragments.PeopleFragment"
         android:label="fragment_phone_book"
-        tools:layout="@layout/fragment_phone_book" />
+        tools:layout="@layout/fragment_people" />
     <fragment
         android:id="@+id/storyFragment"
         android:name="com.example.messenger.fragments.StoryFragment"

@@ -29,6 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tvChatPartnerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -101,11 +102,11 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="4dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_camera"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginBottom="4dp" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageButton
                 android:id="@+id/btnGallery"
@@ -134,26 +135,26 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_send"
-                android:layout_marginBottom="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
                 android:background="@drawable/bg_text_input_chat"
                 android:hint="Text something"
-                android:textSize="15sp"
-                android:textColorHint="@color/hint_color"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnMicro"
-                app:layout_constraintEnd_toStartOf="@id/btnSend"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginHorizontal="8dp"
                 android:paddingHorizontal="10dp"
-                android:paddingVertical="6dp"/>
+                android:paddingVertical="6dp"
+                android:textColorHint="@color/hint_color"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnSend"
+                app:layout_constraintStart_toEndOf="@id/btnMicro"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

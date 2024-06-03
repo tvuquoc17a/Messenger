@@ -5,29 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.messenger.R
+import com.example.messenger.databinding.FragmentChatContentBinding
+import com.example.messenger.databinding.FragmentChatsBinding
+import com.example.messenger.databinding.ItemOnlineUserBinding
+import com.example.messenger.model.User
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ChatContentFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ChatContentFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentChatContentBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -35,26 +28,30 @@ class ChatContentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_content, container, false)
+        binding = FragmentChatContentBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChatContentFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ChatContentFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val user = arguments?.getSerializable("user") as User
+        binding.tvChatPartnerName.text = user.name
+        loadImage(user.profileUrl,binding.imgChatContentUser)
+        binding.toolBarChatContent.setNavigationOnClickListener{
+            if(activity?.supportFragmentManager?.backStackEntryCount!! > 0){
+                requireActivity().supportFragmentManager.popBackStack()
             }
+            else{
+                requireActivity().onBackPressed()
+            }
+        }
     }
+
+    private fun loadImage(profileUrl: String, imgChatContentUser: ImageView) {
+        Glide.with(this)
+            .load(profileUrl)
+            .into(imgChatContentUser)
+    }
+
 }

@@ -2,19 +2,18 @@ package com.example.messenger.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.messenger.MainActivity
 import com.example.messenger.R
 import com.example.messenger.adapters.OnItemClickListener
 import com.example.messenger.adapters.OnlineUserAdapter
 import com.example.messenger.databinding.FragmentChatsBinding
+import com.example.messenger.singleton.UserSingleton
 import com.example.messenger.viewmodel.MainViewModel
-import kotlinx.coroutines.runBlocking
 
 
 class ChatsFragment : Fragment() {
@@ -45,6 +44,7 @@ class ChatsFragment : Fragment() {
                 transaction.commit()
             }
         })
+        UserSingleton.user?.value?.let { Log.d("user_id", it.uid) }
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

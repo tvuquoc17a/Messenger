@@ -5,15 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.registerForActivityResult
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.messenger.MainActivity
 import com.example.messenger.R
 import com.example.messenger.adapters.OnItemClickListener
 import com.example.messenger.adapters.OnlineUserAdapter
+import com.example.messenger.adapters.ViewPagerAdapter
 import com.example.messenger.databinding.FragmentChatsBinding
 import com.example.messenger.singleton.UserSingleton
 import com.example.messenger.viewmodel.MainViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class ChatsFragment : Fragment() {
@@ -45,6 +48,7 @@ class ChatsFragment : Fragment() {
             }
         })
         UserSingleton.user?.value?.let { Log.d("user_id", it.uid) }
+        Log.d("ChatFragment", "created")
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +66,15 @@ class ChatsFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
         binding.rcvOnlineUsers.adapter = adapter
+        binding.viewPagerLatestMessage.adapter = ViewPagerAdapter(requireActivity())
+        TabLayoutMediator(binding.tabLayoutChatFragment, binding.viewPagerLatestMessage){ tab, position ->
+            when(position){
+                0 -> tab.text = "Home"
+                1 -> tab.text = "Chanel"
+            }
+        }.attach()
+        binding.viewPagerLatestMessage.setCurrentItem(0, true)
+
     }
 
 }

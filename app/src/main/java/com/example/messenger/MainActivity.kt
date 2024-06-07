@@ -1,6 +1,7 @@
 package com.example.messenger
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.messenger.databinding.ActivityMainBinding
 import com.example.messenger.databinding.HeaderMenuBinding
+import com.example.messenger.fragments.ChatsFragment
 import com.example.messenger.singleton.UserSingleton
 import com.example.messenger.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -41,6 +43,11 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navController = Navigation.findNavController(this, R.id.fragments)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
+
+        val fragmentManager = supportFragmentManager
+
+        // Bắt đầu một FragmentTransaction
+
 
         bottomNavigationView.selectedItemId = R.id.chatsFragment
         bottomNavigationView.setOnNavigationItemSelectedListener {

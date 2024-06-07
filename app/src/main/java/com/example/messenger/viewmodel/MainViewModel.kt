@@ -26,10 +26,14 @@ class MainViewModel : ViewModel() {
 
     private var _messagesInRoom = MutableLiveData<List<Message>>()
     private var _onlineUserList = MutableLiveData<List<User>>()
+    private var _latestMessageList = MutableLiveData<MutableList<Message>>()
     val onlineUserList: LiveData<List<User>>
         get() = _onlineUserList
     val messagesInRoom: LiveData<List<Message>>
         get() = _messagesInRoom
+
+    val latestMessageList : LiveData<MutableList<Message>>
+        get() = _latestMessageList
 
     fun fetchOnlineUsers() {
         FirebaseUtil.database.getReference("/Users").addValueEventListener(onlineUserListener)
@@ -97,6 +101,7 @@ class MainViewModel : ViewModel() {
                 it.profileUrl, roomId,MessageStatus.SENT )
         }
         FirebaseUtil.database.getReference("/Rooms/$roomId/messages/$messageId").setValue(message)
+        FirebaseUtil.database.getReference("/Rooms/$roomId/lastMessage/").setValue(message)
     }
 
     private val onlineUserListener = object : ValueEventListener {
@@ -110,5 +115,32 @@ class MainViewModel : ViewModel() {
         override fun onCancelled(error: DatabaseError) {
             Log.e("MainViewModel", "onCancelled: ${error.message}")
         }
+    }
+
+    fun getLatestMessage(userId : String){
+        val ref = FirebaseUtil.database.getReference("/Rooms").orderByChild("timestamps")
+        val roomListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val lastMessages = mutableListOf<Message>()
+                for(roomSnapshot in snapshot.children){
+                    val lastMessage = roomSnapshot.child("lastMessage").getValue(Message::class.java)
+                    val participantSnapshot = roomSnapshot.child("participants")
+                    val participants = participantSnapshot.children.mapNotNull { it.getValue(String::class.java) }
+                    if(participants.contains(userId)){
+                        if (lastMessage != null) {
+                            lastMessages.add(lastMessage)
+                        }
+                    }
+                }
+                _latestMessageList.value = lastMessages
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("getLatestMessage", error.message)
+            }
+
+        }
+        ref.addValueEventListener(roomListener)
     }
 }

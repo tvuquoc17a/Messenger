@@ -18,18 +18,20 @@ class OnlineUserAdapter(val context: Context, private val data: LiveData<List<Us
     RecyclerView.Adapter<OnlineUserAdapter.OnlineUserViewHolder>() {
 
 
-    inner class OnlineUserViewHolder(val binding: ItemOnlineUserBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val userImage: ImageView = itemView.findViewById(R.id.imgOnlineUser)
-        private val userName: TextView = itemView.findViewById(R.id.tvOnlineUserName)
+    inner class OnlineUserViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+
         fun onBind(user: User) {
-            binding.executePendingBindings()
+            val imgOnlineUser = itemView.findViewById<ImageView>(R.id.imgOnlineUser)
+            val tvOnLineUserName = itemView.findViewById<TextView>(R.id.tvOnlineUserName)
+            Glide.with(context).load(user.profileUrl).into(imgOnlineUser)
+            tvOnLineUserName.text = user.name
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnlineUserViewHolder {
-        val inflater = LayoutInflater.from(context)
-        val binding = ItemOnlineUserBinding.inflate(inflater, parent, false)
-        return OnlineUserViewHolder(binding)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_online_user,parent, false)
+        return OnlineUserViewHolder(itemView)
     }
 
     override fun getItemCount(): Int {
@@ -39,8 +41,6 @@ class OnlineUserAdapter(val context: Context, private val data: LiveData<List<Us
 
     override fun onBindViewHolder(holder: OnlineUserViewHolder, position: Int) {
         holder.onBind(data.value!![position])
-        val user = data.value!![position]
-        holder.binding.user = user
         holder.itemView.setOnClickListener{ listener?.onItemClick(position) }
         Log.d("OnlineUserAdapter", "onBindViewHolder: $position")
     }

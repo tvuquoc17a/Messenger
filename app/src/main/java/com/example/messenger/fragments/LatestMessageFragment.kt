@@ -40,7 +40,7 @@ class LatestMessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = LatestMessageAdapter(requireContext(), mutableListOf())
-        binding.rcvLatestMessages.layoutManager  = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rcvLatestMessages.layoutManager  = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
 
         viewModel.latestMessageList.observe(viewLifecycleOwner, Observer {
             adapter.latestMessageList = it

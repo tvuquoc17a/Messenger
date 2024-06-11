@@ -12,7 +12,8 @@ import com.example.messenger.MainActivity
 import com.example.messenger.R
 import com.example.messenger.adapters.OnItemClickListener
 import com.example.messenger.adapters.OnlineUserAdapter
-import com.example.messenger.adapters.ViewPagerAdapter
+
+import com.example.messenger.adapters.ViewPagerAdapter2
 import com.example.messenger.databinding.FragmentChatsBinding
 import com.example.messenger.singleton.UserSingleton
 import com.example.messenger.viewmodel.MainViewModel
@@ -66,7 +67,8 @@ class ChatsFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
         binding.rcvOnlineUsers.adapter = adapter
-        binding.viewPagerLatestMessage.adapter = ViewPagerAdapter(requireActivity())
+        binding.viewPagerLatestMessage.adapter = ViewPagerAdapter2(requireActivity())
+        binding.viewPagerLatestMessage.offscreenPageLimit = 2
         TabLayoutMediator(binding.tabLayoutChatFragment, binding.viewPagerLatestMessage){ tab, position ->
             when(position){
                 0 -> tab.text = "Home"

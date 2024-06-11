@@ -12,9 +12,7 @@ import com.example.messenger.repository.FirebaseUtil
 import com.example.messenger.singleton.UserSingleton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID
@@ -56,7 +54,7 @@ class MainViewModel : ViewModel() {
         ref.addValueEventListener(messagesInRoomEventListener)
     }
 
-    suspend fun getOrCreateRoom(userId: String, partnerId: String): String = withContext(Dispatchers.IO) {
+    suspend fun getOrCreateRoom(userId: String, partnerId: String, partnerName : String): String = withContext(Dispatchers.IO) {
             suspendCoroutine<String> { continuation ->
                 val roomRef = FirebaseUtil.database.getReference("/Rooms")
                 var roomId: String = roomRef.push().key.toString()
@@ -77,7 +75,7 @@ class MainViewModel : ViewModel() {
                         }
 
                         val userList = listOf(userId, partnerId)
-                        val newRoom = Room(roomId, userList, emptyList(), Message())
+                        val newRoom = Room(roomId,partnerName, userList, emptyList(), Message())
                         roomRef.child(roomId).setValue(newRoom)
                         continuation.resume(roomId)
                     }
@@ -93,12 +91,11 @@ class MainViewModel : ViewModel() {
 
         }
 
-    fun sendMessage(roomId: String, content: String) {
+    fun sendMessage(roomId: String, content: String, partnerName: String, partnerImage: String) {
         val timestamp = System.currentTimeMillis()
         val messageId = UUID.randomUUID().toString()
         val message = UserSingleton.user?.value?.let {
-            Message(messageId, UserSingleton.user?.value?.uid.toString(), content,timestamp,
-                it.profileUrl, roomId,MessageStatus.SENT )
+            Message(messageId, UserSingleton.user!!.value?.uid!!,content, timestamp,UserSingleton.user!!.value?.profileUrl!!,UserSingleton.user!!.value?.name!!,roomId,MessageStatus.NONE, partnerImage, partnerName)
         }
         FirebaseUtil.database.getReference("/Rooms/$roomId/messages/$messageId").setValue(message)
         FirebaseUtil.database.getReference("/Rooms/$roomId/lastMessage/").setValue(message)
@@ -118,7 +115,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun getLatestMessage(userId : String){
-        val ref = FirebaseUtil.database.getReference("/Rooms").orderByChild("timestamps")
+        val ref = FirebaseUtil.database.getReference("/Rooms").orderByChild("/lastMessage/timestamp")
         val roomListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val lastMessages = mutableListOf<Message>()

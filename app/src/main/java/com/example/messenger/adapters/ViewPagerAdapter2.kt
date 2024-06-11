@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.messenger.fragments.ChanelsFragment
 import com.example.messenger.fragments.LatestMessageFragment
 
-class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+class ViewPagerAdapter2(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int {
         return 2
     }

@@ -34,7 +34,7 @@ class ChatContentFragment : Fragment() {
         user = arguments?.getSerializable("user") as User
         lifecycleScope.launch {
             FirebaseUtil.auth.currentUser?.let {
-                roomId = viewModel.getOrCreateRoom(it.uid, user.uid)
+                roomId = viewModel.getOrCreateRoom(it.uid, user.uid, user.name)
                 viewModel.getMessagesInRoom(roomId)
                 Log.d("ChatContentFragment", "onCreate: $roomId")
             }
@@ -66,7 +66,7 @@ class ChatContentFragment : Fragment() {
         }
         binding.btnSend.setOnClickListener{
 
-            viewModel.sendMessage(roomId, binding.editTextChatContent.text.toString())
+            viewModel.sendMessage(roomId, binding.editTextChatContent.text.toString(), user.name, user.profileUrl)
             binding.editTextChatContent.text?.clear()
         }
         adapter = ChatContentAdapter(requireContext(), emptyList())

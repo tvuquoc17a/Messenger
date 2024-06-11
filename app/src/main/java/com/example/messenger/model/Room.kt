@@ -4,9 +4,10 @@ import java.util.SortedSet
 
 data class Room(
     val id: String ,
+    val roomName : String,
     val participants : List<String>,
     val messages : List<Message>,
     val lastMessage: Message
 ){
-    constructor() : this("", emptyList(), emptyList(), Message())
+    constructor() : this("","", emptyList(), emptyList(), Message())
 }

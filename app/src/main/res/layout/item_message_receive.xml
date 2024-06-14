@@ -27,6 +27,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/imgPartnerMessage"
         tools:maxWidth="250dp"
+        tools:visibility="gone"
         tools:text="is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries," />
 
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:id="@+id/tvMessageImageReceive"
+        tools:src="@drawable/messenger_icon"
+        android:maxWidth="100dp"
+        android:maxHeight="150dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imgPartnerMessage"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

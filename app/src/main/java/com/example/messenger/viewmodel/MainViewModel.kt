@@ -1,5 +1,6 @@
 package com.example.messenger.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -30,15 +31,15 @@ class MainViewModel : ViewModel() {
     val messagesInRoom: LiveData<List<Message>>
         get() = _messagesInRoom
 
-    val latestMessageList : LiveData<MutableList<Message>>
+    val latestMessageList: LiveData<MutableList<Message>>
         get() = _latestMessageList
 
     fun fetchOnlineUsers() {
         FirebaseUtil.database.getReference("/Users").addValueEventListener(onlineUserListener)
     }
 
-    fun getMessagesInRoom(roomId : String){
-        val messagesInRoomEventListener = object : ValueEventListener{
+    fun getMessagesInRoom(roomId: String) {
+        val messagesInRoomEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 Log.d("getMessagesInRoom", "onDataChange: ${snapshot.value}")
                 val messages = snapshot.children.mapNotNull { it.getValue(Message::class.java) }
@@ -50,11 +51,13 @@ class MainViewModel : ViewModel() {
             }
 
         }
-        val ref = FirebaseUtil.database.getReference("Rooms/$roomId/messages").orderByChild("timestamp")
+        val ref =
+            FirebaseUtil.database.getReference("Rooms/$roomId/messages").orderByChild("timestamp")
         ref.addValueEventListener(messagesInRoomEventListener)
     }
 
-    suspend fun getOrCreateRoom(userId: String, partnerId: String, partnerName : String): String = withContext(Dispatchers.IO) {
+    suspend fun getOrCreateRoom(userId: String, partnerId: String, partnerName: String): String =
+        withContext(Dispatchers.IO) {
             suspendCoroutine<String> { continuation ->
                 val roomRef = FirebaseUtil.database.getReference("/Rooms")
                 var roomId: String = roomRef.push().key.toString()
@@ -63,11 +66,13 @@ class MainViewModel : ViewModel() {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         for (roomSnapshot in snapshot.children) {
                             val participantsSnapshot = roomSnapshot.child("participants")
-                            val participants = participantsSnapshot.children.mapNotNull { it.getValue(String::class.java) }
+                            val participants =
+                                participantsSnapshot.children.mapNotNull { it.getValue(String::class.java) }
 
                             //Log.d("getOrCreateRoom", "participants: ${roomSnapshot.child("participants").getValue(HashMap::class.java)}")
                             if (participants.contains(userId) && participants.contains(partnerId) && participants.size == 2) {
-                                roomId = roomSnapshot.child("id").getValue(String::class.java).toString()
+                                roomId =
+                                    roomSnapshot.child("id").getValue(String::class.java).toString()
                                 continuation.resume(roomId)
                                 roomRef.removeEventListener(this)
                                 return
@@ -75,7 +80,7 @@ class MainViewModel : ViewModel() {
                         }
 
                         val userList = listOf(userId, partnerId)
-                        val newRoom = Room(roomId,partnerName, userList, emptyList(), Message())
+                        val newRoom = Room(roomId, partnerName, userList, emptyList(), Message())
                         roomRef.child(roomId).setValue(newRoom)
                         continuation.resume(roomId)
                     }
@@ -95,7 +100,19 @@ class MainViewModel : ViewModel() {
         val timestamp = System.currentTimeMillis()
         val messageId = UUID.randomUUID().toString()
         val message = UserSingleton.user?.value?.let {
-            Message(messageId, UserSingleton.user!!.value?.uid!!,content, timestamp,UserSingleton.user!!.value?.profileUrl!!,UserSingleton.user!!.value?.name!!,roomId,MessageStatus.NONE, partnerImage, partnerName)
+            Message(
+                messageId,
+                UserSingleton.user!!.value?.uid!!,
+                content,
+                timestamp,
+                UserSingleton.user!!.value?.profileUrl!!,
+                UserSingleton.user!!.value?.name!!,
+                roomId,
+                MessageStatus.NONE,
+                partnerImage,
+                partnerName,
+                null
+            )
         }
         FirebaseUtil.database.getReference("/Rooms/$roomId/messages/$messageId").setValue(message)
         FirebaseUtil.database.getReference("/Rooms/$roomId/lastMessage/").setValue(message)
@@ -114,16 +131,61 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun getLatestMessage(userId : String){
-        val ref = FirebaseUtil.database.getReference("/Rooms").orderByChild("/lastMessage/timestamp")
-        val roomListener = object : ValueEventListener{
+    suspend fun sendImage(roomId : String, partnerName : String, partnerImage: String,uri: String) {
+        val timestamp = System.currentTimeMillis()
+        val messageId = UUID.randomUUID().toString()
+        val message = Message(
+            messageId,
+            UserSingleton.user!!.value?.uid!!,
+            null,
+            timestamp,
+            UserSingleton.user!!.value?.profileUrl!!,
+            UserSingleton.user!!.value?.name!!,
+            roomId,
+            MessageStatus.NONE,
+            partnerImage,
+            partnerName,
+            uri
+        )
+        FirebaseUtil.database.getReference("/Rooms/$roomId/messages/$messageId").setValue(message)
+        FirebaseUtil.database.getReference("/Rooms/$roomId/lastMessage/").setValue(message)
+    }
+
+     suspend fun getImageUrl(uri: Uri): String {
+        val fileName = UUID.randomUUID().toString()
+        val ref = FirebaseUtil.storage.getReference("/image_send/$fileName")
+        return suspendCoroutine { continuation ->
+            ref.putFile(uri)
+                .addOnSuccessListener {
+                    ref.downloadUrl
+                        .addOnSuccessListener {
+                            val imageUrl = it.toString()
+                            continuation.resume(imageUrl)
+                        }
+                        .addOnFailureListener { exception ->
+                            continuation.resumeWithException(exception)
+                        }
+                }
+                .addOnFailureListener { exception ->
+                    continuation.resumeWithException(exception)
+                }
+
+        }
+    }
+
+    fun getLatestMessage(userId: String) {
+        val ref =
+            FirebaseUtil.database.getReference("/Rooms").orderByChild("/lastMessage/timestamp")
+        val roomListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val lastMessages = mutableListOf<Message>()
-                for(roomSnapshot in snapshot.children){
-                    val lastMessage = roomSnapshot.child("lastMessage").getValue(Message::class.java)
+                for (roomSnapshot in snapshot.children) {
+                    val lastMessage =
+                        roomSnapshot.child("lastMessage").getValue(Message::class.java)
                     val participantSnapshot = roomSnapshot.child("participants")
-                    val participants = participantSnapshot.children.mapNotNull { it.getValue(String::class.java) }
-                    if(participants.contains(userId)){
+                    val participants =
+                        participantSnapshot.children.mapNotNull { it.getValue(String::class.java) }
+                    if (participants.contains(userId)) {
                         if (lastMessage != null) {
                             lastMessages.add(lastMessage)
                         }

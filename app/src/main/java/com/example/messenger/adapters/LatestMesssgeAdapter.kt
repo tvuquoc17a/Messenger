@@ -18,7 +18,7 @@ import com.example.messenger.R
 import com.example.messenger.model.Message
 import com.example.messenger.singleton.UserSingleton
 
-class LatestMessageAdapter(val context: Context, var latestMessageList : MutableList<Message> ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class LatestMessageAdapter(val context: Context, var latestMessageList : MutableList<Message> , private val listener: OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class LatestMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bind(message: Message){
@@ -26,13 +26,27 @@ class LatestMessageAdapter(val context: Context, var latestMessageList : Mutable
             val imgPartner = itemView.findViewById<ImageView>(R.id.imgUserLatestMessage)
             val tvPartnerName = itemView.findViewById<TextView>(R.id.tvLatestPartnerName)
             tvLatestMessageContent.text = if(UserSingleton.user?.value?.uid   == message.senderId){
-                "You : ${message.content}"
+                if(message.imageSend != null){
+                    "You sent the photo"
+                }
+                else {"You : ${message.content}"}
+
             }
             else{
-                message.content
+                if(message.imageSend != null){
+                    "${message.senderName} sent the photo"
+                }
+                else{
+                    message.content
+                }
             }
             tvPartnerName.text = message.partnerName
-            Glide.with(context).load(message.partnerImage).error(R.drawable.ic_image_not_supported_24).listener(object : RequestListener<Drawable>{
+            val image =if(message.senderImage == UserSingleton.user?.value?.profileUrl){
+                message.partnerImage
+            }else{
+                message.senderImage
+            }
+            Glide.with(context).load(image).error(R.drawable.ic_image_not_supported_24).listener(object : RequestListener<Drawable>{
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
@@ -70,5 +84,6 @@ class LatestMessageAdapter(val context: Context, var latestMessageList : Mutable
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as LatestMessageViewHolder).bind(latestMessageList[position])
+        holder.itemView.setOnClickListener{ listener.onItemClick(position) }
     }
 }
